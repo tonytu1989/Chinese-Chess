@@ -1,7 +1,6 @@
 import pygame
 import os
-from piece import Pawn
-from piece import Board
+from board import Board
 
 board = pygame.image.load(os.path.join('images','chess_board.png'))
 
@@ -9,14 +8,15 @@ board = pygame.image.load(os.path.join('images','chess_board.png'))
 def game_window():
     global screen 
     screen.blit(board, (0, 0))
-    p.draw(screen)
+    bo = Board(10, 9)
+    bo.draw(screen)
     
 
     pygame.display.update()
 
 
 def main():
-    board = Board()
+
     running = True
     clock = pygame.time.Clock()
 
