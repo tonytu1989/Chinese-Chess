@@ -26,9 +26,9 @@ B = []
 
 #scaling images
 for img in r:
-    R.append(pygame.transform.scale(img, (70, 70))) 
+    R.append(pygame.transform.scale(img, (68, 68))) 
 for img in b:
-    B.append(pygame.transform.scale(img, (70, 70)))
+    B.append(pygame.transform.scale(img, (68, 68)))
 
 
 class Piece:
@@ -56,8 +56,8 @@ class Piece:
             draw_piece = B[self.img] 
 
             
-        x = round(self.startX + (self.col * self.rect[2]/9))
-        y = round(self.startY + (self.row * self.rect[3]/10))
+        x = 1 + round(self.startX + (self.col * self.rect[2]/9))
+        y = 1 + round(self.startY + (self.row * self.rect[3]/10))
 
         screen.blit(draw_piece, (x, y))
 

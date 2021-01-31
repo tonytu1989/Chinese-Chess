@@ -2,7 +2,7 @@ import pygame
 import os
 from board import Board
 
-board = pygame.image.load(os.path.join('images','chess_board.png'))
+board = pygame.transform.scale(pygame.image.load(os.path.join('images','chess_board.png')), (880, 980))
 
 
 def game_window():
@@ -35,6 +35,6 @@ def main():
                 pass
 
 
-screen = pygame.display.set_mode((900, 1000)) #Board is 9 x 10
+screen = pygame.display.set_mode((880, 980)) #Board is 9 x 10
 pygame.display.set_caption("Chinese_Chess")
 main()
