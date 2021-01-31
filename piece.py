@@ -33,6 +33,10 @@ for img in b:
 
 class Piece:
     img = -1
+    rect = (0, 0, 900, 1000)
+    startX = rect[0]
+    startY = rect[1]
+
 
     def __init__(self, row, col, color):
         self.row = row
@@ -42,7 +46,7 @@ class Piece:
     def move(self):
         pass
 
-    def selected(self):
+    def is_selected(self):
         return self.selected
     
     def draw(self, screen):
@@ -50,6 +54,12 @@ class Piece:
             draw_piece = R[self.img]
         else:
             draw_piece = B[self.img] 
+
+            
+        x = round(self.startX + (self.col * self.rect[2]/9))
+        y = round(self.startY + (self.row * self.rect[3]/10))
+
+        screen.blit(draw_piece, (x, y))
 
 #make img indexes from r and b list
 class Pawn(Piece):
