@@ -1,5 +1,11 @@
-import pygame
-import os
+from piece import Pawn
+from piece import Cannon
+from piece import Rook
+from piece import Knight
+from piece import Elephant
+from piece import Guard
+from piece import King
+
 
 class Board:
     def __init__(self, rows, cols):
