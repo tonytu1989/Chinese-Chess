@@ -3,20 +3,37 @@ import os
 from board import Board
 
 board = pygame.transform.scale(pygame.image.load(os.path.join('images','chess_board.png')), (880, 980))
-
+rect = (0, 0, 900, 1000)
 
 def game_window():
-    global screen 
+    global screen, bo 
     screen.blit(board, (0, 0))
-    bo = Board(10, 9)
     bo.draw(screen)
     
 
     pygame.display.update()
 
+def click(pos):
+    import math
+
+    """ return pos (x, y) """
+
+    x = pos[0]
+    y = pos[1]
+    if rect[0] < x < rect[0] + rect[2]:
+        if rect[1] < x < rect[1] + rect[3]:
+            divX = x - rect[0]
+            divY = y - rect[0]
+            i = int(divX / (rect[2]/9))
+            j = int(divY / (rect[3]/10))
+            return i, j
+
+
+
 
 def main():
-
+    global bo
+    bo = Board(10, 9)
     running = True
     clock = pygame.time.Clock()
 
@@ -32,7 +49,9 @@ def main():
                 running = False
         
             if event.type == pygame.MOUSEBUTTONDOWN:
-                pass
+                pos = pygame.mouse.get_pos()
+                i, j = click(pos)
+                bo[j][i].selected = True
 
 
 screen = pygame.display.set_mode((880, 980)) #Board is 9 x 10

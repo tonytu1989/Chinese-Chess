@@ -49,7 +49,7 @@ class Board:
         self.board[6][6] = Pawn(6, 6, "r")
         self.board[6][8] = Pawn(6, 8, "r")
 
-    def draw(self, screen):
+    def draw(self, screen): #Draw pieces in its starting position
         for i in range(self.rows):
             for j in range(self.cols):
                 if self.board[i][j] != 0:

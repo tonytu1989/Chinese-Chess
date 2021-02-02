@@ -54,6 +54,9 @@ class Piece:
             draw_piece = R[self.img]
         else:
             draw_piece = B[self.img] 
+        
+        if self.selected:
+            pygame.draw.rect(screen, (255,0,0), (x, y, 70, 70), 2)
 
             
         x = 1 + round(self.startX + (self.col * self.rect[2]/9))
