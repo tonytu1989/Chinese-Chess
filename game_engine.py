@@ -8,7 +8,7 @@ rect = (0, 0, 900, 1000)
 def game_window():
     global screen, bo 
     screen.blit(board, (0, 0))
-    bo.draw(screen)
+    bo.draw(screen, bo.board)
     
 
     pygame.display.update()
@@ -51,7 +51,7 @@ def main():
             if event.type == pygame.MOUSEBUTTONDOWN:
                 pos = pygame.mouse.get_pos()
                 i, j = click(pos)
-                bo[j][i].selected = True
+                bo.select(i, j)
 
 
 screen = pygame.display.set_mode((880, 980)) #Board is 9 x 10

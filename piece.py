@@ -42,6 +42,7 @@ class Piece:
         self.row = row
         self.col = col
         self.color = color
+        self.selected = False
 
     def move(self):
         pass
@@ -49,18 +50,25 @@ class Piece:
     def is_selected(self):
         return self.selected
     
-    def draw(self, screen):
+    def draw(self, screen, board):
         if self.color == 'r':
             draw_piece = R[self.img]
         else:
             draw_piece = B[self.img] 
-        
-        if self.selected:
-            pygame.draw.rect(screen, (255,0,0), (x, y, 70, 70), 2)
 
-            
+        moves = self.valid_moves(board)
+
+        for move in moves:
+            x = 45 + round(self.startX + (self.move[0] * self.rect[2]/9))
+            y = 45 + round(self.startY + (self.move[1] * self.rect[3]/10))
+            pygame.draw.circle(screen, (255, 0, 0,), 10)
+
+         
         x = 1 + round(self.startX + (self.col * self.rect[2]/9))
         y = 1 + round(self.startY + (self.row * self.rect[3]/10))
+
+        if self.selected:
+            pygame.draw.rect(screen, (255, 0, 0), (x, y, 75, 75), 5)
 
         screen.blit(draw_piece, (x, y))
 
@@ -68,8 +76,34 @@ class Piece:
 class Pawn(Piece):
     img = 0
 
+    def __init__(self, row, col, color):
+        super().__init__(row, col, color)
+        self.super_pawn = False
+        self.pawn = True
+
+    def valid_moves(self, board):
+        i = self.row
+        j = self.col
+
+        moves = []
+        
+        try:
+            if self.color =='b':
+                if i < 3:
+                    p = board[i + 1][j]
+                    if p == 0:
+                        moves.append((j, i + 1))
+        except:
+            pass
+
+        return moves
+
+
 class Cannon(Piece):
     img = 1
+    
+
+
 
 class Rook(Piece):
     img = 2

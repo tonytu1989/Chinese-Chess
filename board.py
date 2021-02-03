@@ -49,9 +49,24 @@ class Board:
         self.board[6][6] = Pawn(6, 6, "r")
         self.board[6][8] = Pawn(6, 8, "r")
 
-    def draw(self, screen): #Draw pieces in its starting position
+    def draw(self, screen, board): #Draw pieces in its starting position
         for i in range(self.rows):
             for j in range(self.cols):
                 if self.board[i][j] != 0:
-                    self.board[i][j].draw(screen)   
+                    self.board[i][j].draw(screen, board)   
+
+    def select(self, col, row): #Selecting and unselecting board piece
+        for i in range(self.rows):
+            for j in range(self.cols):
+                if self.board[i][j] != 0:
+                    self.board[i][j].selected = False
+
+        if self.board[row][col] != 0: #Game doesn't crash when not selected on a piece
+            self.board[row][col].selected = True
+
+    def move(self, start, end):
+        killed = self.board[end[1]][end[0]]
+        self.board[end[1]] [end[0]] = self.board[start[1]] [start[0]]
+        self.board[start[1]] [start[0]] = 0
+        return killed
         
