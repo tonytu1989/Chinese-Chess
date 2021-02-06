@@ -26,11 +26,11 @@ class Board:
         self.board[0][4] = King(0, 4, "b")
         self.board[2][1] = Cannon(2, 1, "b")
         self.board[2][7] = Cannon(2, 7, "b")
-        '''self.board[3][0] = Pawn(3, 0, "b")
+        self.board[3][0] = Pawn(3, 0, "b")
         self.board[3][2] = Pawn(3, 2, "b")
         self.board[3][4] = Pawn(3, 4, "b")
         self.board[3][6] = Pawn(3, 6, "b")
-        self.board[3][8] = Pawn(3, 8, "b")'''
+        self.board[3][8] = Pawn(3, 8, "b")
 
         self.board[9][0] = Rook(9, 0, "r")
         self.board[9][8] = Rook(9, 8, "r")
@@ -43,56 +43,30 @@ class Board:
         self.board[9][4] = King(9, 4, "r")
         self.board[7][1] = Cannon(7, 1, "r")
         self.board[7][7] = Cannon(7, 7, "r")
-        '''self.board[6][0] = Pawn(6, 0, "r")
+        self.board[6][0] = Pawn(6, 0, "r")
         self.board[6][2] = Pawn(6, 2, "r")
         self.board[6][4] = Pawn(6, 4, "r")
         self.board[6][6] = Pawn(6, 6, "r")
-        self.board[6][8] = Pawn(6, 8, "r")'''
+        self.board[6][8] = Pawn(6, 8, "r")
 
-
-    def update_moves(self, board):
+    def draw(self, screen, board): #Draw pieces in its starting position
         for i in range(self.rows):
             for j in range(self.cols):
                 if self.board[i][j] != 0:
-                    self.board[i][j].update_valid_moves(board)
+                    self.board[i][j].draw(screen, board)   
 
-
-    def draw(self, screen): #Draw pieces in its starting position
-        for i in range(self.rows):
-            for j in range(self.cols):
-                if self.board[i][j] != 0:
-                    self.board[i][j].draw(screen)   
-
-    def select(self, col, row): #Selecting 
-        prev = (-1, -1)
-        for i in range(self.rows):
-            for j in range(self.cols):
-                if self.board[i][j] != 0:
-                    if self.board[i][j].selected:
-                        prev = (i, j)
-        if self.board[row][col] != 0:
-            self.unselect()
-            self.board[row][col].selected = True
-        else:
-            moves = self.board[prev[0]][prev[1]].move_list
-            if (col, row) in moves:
-                self.move(prev, (row,col))
-            
-
-    def unselect(self):
+    def select(self, col, row): #Selecting and unselecting board piece
         for i in range(self.rows):
             for j in range(self.cols):
                 if self.board[i][j] != 0:
                     self.board[i][j].selected = False
 
-            
+        if self.board[row][col] != 0: #Game doesn't crash when not selected on a piece
+            self.board[row][col].selected = True
 
     def move(self, start, end):
-        import numpy
-        nBoard = self.board[:]
-        nBoard[start[0]][start[1]].row = start[0]
-        nBoard[start[0]][start[1]].col = start[1]
-        nBoard[end[0]][end[1]] = nBoard[start[0]][start[1]]
-        nBoard[start[0]][start[1]] = 0
-        self.board = nBoard
+        killed = self.board[end[1]][end[0]]
+        self.board[end[1]] [end[0]] = self.board[start[1]] [start[0]]
+        self.board[start[1]] [start[0]] = 0
+        return killed
         
