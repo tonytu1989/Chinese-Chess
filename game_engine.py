@@ -8,7 +8,7 @@ rect = (0, 0, 900, 1000)
 def game_window():
     global screen, bo 
     screen.blit(board, (0, 0))
-    bo.draw(screen, bo.board)
+    bo.draw(screen)
     
 
     pygame.display.update()
@@ -50,6 +50,7 @@ def main():
         
             if event.type == pygame.MOUSEBUTTONDOWN:
                 pos = pygame.mouse.get_pos()
+                bo.update_moves(bo.board)
                 i, j = click(pos)
                 bo.select(i, j)
 
