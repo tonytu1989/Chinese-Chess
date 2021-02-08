@@ -77,6 +77,10 @@ class Piece:
 
         screen.blit(draw_piece, (x, y))
 
+    def change_pos(self, pos):
+        self.row = pos[0]
+        self.col = pos[1]
+
 #make img indexes from r and b list
 class Pawn(Piece):
     img = 0
@@ -239,14 +243,14 @@ class Knight(Piece):
 
         #UP left
         if i > 1 and j > 0:
-            p = board[i - 2][j-1]
+            p = board[i - 2][j - 1]
             if p == 0:
                 moves.append((j - 1, i - 2))
             elif p.color != self.color:
-                moves.append((j - 1, i -2))
+                moves.append((j - 1, i - 2))
 
         #Down Right
-        if i < 1 and j < 9:
+        if i < 8 and j < 9:
             p = board[i + 2][j + 1]
             if p == 0:
                 moves.append((j + 1, i + 2))

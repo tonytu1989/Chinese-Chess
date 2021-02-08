@@ -13,7 +13,7 @@ class Board:
         self.cols = cols
         
 
-        self.board = [[0 for x in range(9)] for _ in range (rows)]
+        self.board = [[0 for x in range(10)] for _ in range (rows)]
 
         self.board[0][0] = Rook(0, 0, "b")
         self.board[0][8] = Rook(0, 8, "b")
@@ -50,11 +50,11 @@ class Board:
         self.board[6][8] = Pawn(6, 8, "r")'''
 
 
-    def update_moves(self, board):
+    def update_moves(self):
         for i in range(self.rows):
             for j in range(self.cols):
                 if self.board[i][j] != 0:
-                    self.board[i][j].update_valid_moves(board)
+                    self.board[i][j].update_valid_moves(self.board)
 
 
     def draw(self, screen): #Draw pieces in its starting position
@@ -70,13 +70,15 @@ class Board:
                 if self.board[i][j] != 0:
                     if self.board[i][j].selected:
                         prev = (i, j)
-        if self.board[row][col] != 0:
-            self.unselect()
-            self.board[row][col].selected = True
-        else:
+
+        if self.board[row][col] == 0 and prev != (-1, -1):
             moves = self.board[prev[0]][prev[1]].move_list
             if (col, row) in moves:
                 self.move(prev, (row,col))
+            self.unselect()
+        else:
+            self.unselect()
+            self.board[row][col].selected = True
             
 
     def unselect(self):
@@ -88,11 +90,8 @@ class Board:
             
 
     def move(self, start, end):
-        import numpy
         nBoard = self.board[:]
-        nBoard[start[0]][start[1]].row = start[0]
-        nBoard[start[0]][start[1]].col = start[1]
+        nBoard[start[0]][start[1]].change_pos((end[0], end[1]))
         nBoard[end[0]][end[1]] = nBoard[start[0]][start[1]]
         nBoard[start[0]][start[1]] = 0
         self.board = nBoard
-        
