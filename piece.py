@@ -235,7 +235,7 @@ class Knight(Piece):
         moves = []
         #Down left
         if i < 9 and j > 0:
-            p = board[i + 2][j-1]
+            p = board[i + 2][j - 1]
             if p == 0:
                 moves.append((j - 1, i + 2))
             elif p.color != self.color:
@@ -324,15 +324,17 @@ class Guard(Piece):
 
         if self.color == 'b':
         #Down Left Diagonal        
-            if i < 9: 
+            if i < 3 and j < 6 and j > 3: 
                 if j > 0:
                     p = board[i + 1][j - 1]
                     if p == 0:
                         moves.append((j - 1, i + 1))
                     elif p.color != self.color:
                         moves.append((j - 1, i + 1))
+
                 #Down Right Diagonal
-                if j < 9:
+            if i < 3 and j < 6 and j > 3:
+                if j < 6:
                     p = board[i + 1][j + 1]
                     if p == 0:
                         moves.append((j + 1, i + 1))    
@@ -374,7 +376,7 @@ class King(Piece):
             elif p.color != self.color:
                 moves.append((j, i - 1))
         #Down
-        if i < 7:
+        if i < 9:
             if j > 0:
                 p = board[i + 1][j]
                 if p == 0:
@@ -389,7 +391,7 @@ class King(Piece):
             elif p.color != self.color:
                 moves.append((j - 1, i))
         #Right
-        if j < 7:
+        if j < 9:
             p = board[i][j + 1]
             if p ==0:
                 moves.append((j + 1, i))

@@ -23,7 +23,7 @@ def click(pos):
     if rect[0] < x < rect[0] + rect[2]:
         if rect[1] < x < rect[1] + rect[3]:
             divX = x - rect[0]
-            divY = y - rect[0]
+            divY = y - rect[1]
             i = int(divX / (rect[2]/9))
             j = int(divY / (rect[3]/10))
             return i, j

@@ -13,7 +13,7 @@ class Board:
         self.cols = cols
         
 
-        self.board = [[0 for x in range(10)] for _ in range (rows)]
+        self.board = [[0 for x in range(9)] for _ in range (rows)]
 
         self.board[0][0] = Rook(0, 0, "b")
         self.board[0][8] = Rook(0, 8, "b")
@@ -71,16 +71,18 @@ class Board:
                     if self.board[i][j].selected:
                         prev = (i, j)
 
-        if self.board[row][col] == 0 and prev != (-1, -1):
+        if self.board[row][col] == 0:
             moves = self.board[prev[0]][prev[1]].move_list
             if (col, row) in moves:
-                self.move(prev, (row,col))
+                self.move(prev, (row, col))
             self.unselect()
         else:
             self.unselect()
             self.board[row][col].selected = True
-            
 
+
+
+            
     def unselect(self):
         for i in range(self.rows):
             for j in range(self.cols):
