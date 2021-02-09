@@ -324,17 +324,16 @@ class Guard(Piece):
 
         if self.color == 'b':
         #Down Left Diagonal        
-            if i < 3 and j < 6 and j > 3: 
-                if j > 0:
+            if i < 1: 
+                if j > 5:
                     p = board[i + 1][j - 1]
                     if p == 0:
                         moves.append((j - 1, i + 1))
                     elif p.color != self.color:
                         moves.append((j - 1, i + 1))
-
                 #Down Right Diagonal
-            if i < 3 and j < 6 and j > 3:
-                if j < 6:
+            if i < 1:
+                if j > 4:
                     p = board[i + 1][j + 1]
                     if p == 0:
                         moves.append((j + 1, i + 1))    
