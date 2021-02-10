@@ -2,9 +2,10 @@ from piece import Pawn
 from piece import Cannon
 from piece import Rook
 from piece import Knight
-from piece import Elephant
-from piece import Guard
-from piece import King
+from piece import BlackElephant1
+from piece import Guard1
+from piece import Guard2
+from piece import BlackKing
 
 
 class Board:
@@ -19,11 +20,11 @@ class Board:
         self.board[0][8] = Rook(0, 8, "b")
         self.board[0][1] = Knight(0, 1, "b")
         self.board[0][7] = Knight(0, 7, "b")
-        self.board[0][2] = Elephant(0, 2, "b")
-        self.board[0][6] = Elephant(0, 6, "b")
-        self.board[0][3] = Guard(0, 3, "b")
-        self.board[0][5] = Guard(0, 5, "b")
-        self.board[0][4] = King(0, 4, "b")
+        self.board[0][2] = BlackElephant1(0, 2, "b")
+        #self.board[0][6] = BlackElephant(0, 6, "b")
+        self.board[0][3] = Guard1(0, 3, "b")
+        self.board[0][5] = Guard2(0, 5, "b")
+        self.board[0][4] = BlackKing(0, 4, "b")
         self.board[2][1] = Cannon(2, 1, "b")
         self.board[2][7] = Cannon(2, 7, "b")
         '''self.board[3][0] = Pawn(3, 0, "b")
@@ -36,11 +37,11 @@ class Board:
         self.board[9][8] = Rook(9, 8, "r")
         self.board[9][1] = Knight(9, 1, "r")
         self.board[9][7] = Knight(9, 7, "r")
-        self.board[9][2] = Elephant(9, 2, "r")
-        self.board[9][6] = Elephant(9, 6, "r")
-        self.board[9][3] = Guard(9, 3, "r")
-        self.board[9][5] = Guard(9, 5, "r")
-        self.board[9][4] = King(9, 4, "r")
+        #self.board[9][2] = Elephant1(9, 2, "r")
+        #self.board[9][6] = Elephant2(9, 6, "r")
+        self.board[9][3] = Guard1(9, 3, "r")
+        self.board[9][5] = Guard2(9, 5, "r")
+        #self.board[9][4] = King(9, 4, "r")
         self.board[7][1] = Cannon(7, 1, "r")
         self.board[7][7] = Cannon(7, 7, "r")
         '''self.board[6][0] = Pawn(6, 0, "r")
