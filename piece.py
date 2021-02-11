@@ -64,8 +64,8 @@ class Piece:
             moves = self.move_list
 
             for move in moves:
-                x = 35 + round(self.startX + (move[0] * self.rect[2]/9))
-                y = 35 + round(self.startY + (move[1] * self.rect[3]/10))
+                x = 40 + round(self.startX + (move[0] * self.rect[2]/9))
+                y = 40 + round(self.startY + (move[1] * self.rect[3]/10))
                 pygame.draw.circle(screen, (255, 0, 0,), (x, y), 10)
 
          
@@ -82,7 +82,7 @@ class Piece:
         self.col = pos[1]
 
 #make img indexes from r and b list
-class Pawn(Piece):
+class BlackPawn(Piece):
     img = 0
 
     def __init__(self, row, col, color):
@@ -96,22 +96,66 @@ class Pawn(Piece):
 
         moves = []
         
-        
+        #Down
         if self.color =='b':
-            if i < 5:
+            if i < 9:
                 p = board[i + 1][j]
                 if p == 0:
                     moves.append((j, i + 1))
                 elif p.color != self.color:
                     moves.append((j, i + 1))
-
-        else:
-            if i > 0:
-                p = board[i - 1][j]
+            #Left
+            if i > 4:
+                p = board[i][j - 1]
                 if p == 0:
-                    moves.append((j, i - 1))
+                    moves.append((j - 1, i))
                 elif p.color != self.color:
-                    moves.append((j, i - 1))
+                    moves.append((j - 1, i))
+            if i > 4:
+                p = board[i][j + 1]
+                if p == 0:
+                    moves.append((j + 1, i))
+                elif p.color != self.color:
+                    moves.append((j + 1, i))
+
+                    
+        return moves
+
+class RedPawn(Piece):
+    img = 0
+
+    def __init__(self, row, col, color):
+        super().__init__(row, col, color)
+        self.super_pawn = False
+        self.pawn = True
+
+    def valid_moves(self, board):
+        i = self.row
+        j = self.col
+
+        moves = []
+        
+        #UP        
+        if i > 0:
+            p = board[i - 1][j]
+            if p == 0:
+                moves.append((j, i - 1))
+            elif p.color != self.color:
+                moves.append((j, i - 1))
+        #Left
+        if i < 5:
+            p = board[i][j - 1]
+            if p == 0:
+                moves.append((j - 1, i))
+            elif p.color != self.color:
+                moves.append((j - 1, i))
+        if i < 5:
+            p = board[i][j + 1]
+            if p == 0:
+                moves.append((j + 1, i))
+            elif p.color != self.color:
+                moves.append((j + 1, i))
+
                     
         return moves
 
@@ -234,7 +278,7 @@ class Knight(Piece):
 
         moves = []
         #Down left
-        if i < 9 and j > 0:
+        if i < 7 and j > 0:
             p = board[i + 2][j - 1]
             if p == 0:
                 moves.append((j - 1, i + 2))
@@ -250,7 +294,7 @@ class Knight(Piece):
                 moves.append((j - 1, i - 2))
 
         #Down Right
-        if i < 8 and j < 9:
+        if i < 7 and j < 8:
             p = board[i + 2][j + 1]
             if p == 0:
                 moves.append((j + 1, i + 2))
@@ -258,7 +302,7 @@ class Knight(Piece):
                 moves.append((j + 1, i + 2))
 
         #Up right
-        if i > 1 and j < 9:
+        if i > 1 and j < 8:
             p = board[i - 2][j + 1]
             if p == 0:
                 moves.append((j + 1, i - 2))
@@ -268,7 +312,7 @@ class Knight(Piece):
         return moves
 
 
-class BlackElephant1(Piece):
+class BlackElephant(Piece):
     img = 4
 
     def valid_moves(self, board):
@@ -277,42 +321,84 @@ class BlackElephant1(Piece):
 
         moves = []
 
-        if self.color == 'b':
         #Down Left Diagonal        
-            if i < 4: 
-                if j > 0:
-                    p = board[i + 2][j - 2]
-                    if p == 0:
-                        moves.append((j - 2, i + 2))
-                    elif p.color != self.color:
-                        moves.append((j - 2, i + 2))
-                #Down Right Diagonal
-                if j < 9:
-                    p = board[i + 2][j + 2]
-                    if p == 0:
-                        moves.append((j + 2, i + 2))    
-                    elif p.color != self.color:
-                        moves.append((j + 2, i + 2))
+        if i < 4: 
+            if j > 0:
+                p = board[i + 2][j - 2]
+                if p == 0:
+                    moves.append((j - 2, i + 2))
+                elif p.color != self.color:
+                    moves.append((j - 2, i + 2))
+            #Down Right Diagonal
+            if j < 7:
+                p = board[i + 2][j + 2]
+                if p == 0:
+                    moves.append((j + 2, i + 2))    
+                elif p.color != self.color:
+                    moves.append((j + 2, i + 2))
 
             #Up left
-           
-                if j > 0:
-                    p = board[i - 2][j - 2]
-                    if p == 0:
-                        moves.append((j - 2, i - 2))
-                    elif p.color != self.color:
-                        moves.append((j - 2, i - 2))
+        if i > 0:
+            if j > 0:
+                p = board[i - 2][j - 2]
+                if p == 0:
+                    moves.append((j - 2, i - 2))
+                elif p.color != self.color:
+                    moves.append((j - 2, i - 2))
 
-                #Up RIGHT    
-                if j < 9:
-                    p = board[i - 2][j + 2]
-                    if p == 0:                      
-                        moves.append((j + 2, i - 2))
-                    elif p.color != self.color:
-                        moves.append((j + 2, - 2))
+            #Up RIGHT    
+            if j < 7:
+                p = board[i - 2][j + 2]
+                if p == 0:                      
+                    moves.append((j + 2, i - 2))
+                elif p.color != self.color:
+                    moves.append((j + 2, - 2))
         return moves  
 
-class Guard1(Piece):
+class RedElephant(Piece):
+    img = 4
+
+    def valid_moves(self, board):
+        i = self.row
+        j = self.col
+
+        moves = []
+
+        #Down Left Diagonal        
+        if i < 9: 
+            if j > 0:
+                p = board[i + 2][j - 2]
+                if p == 0:
+                    moves.append((j - 2, i + 2))
+                elif p.color != self.color:
+                    moves.append((j - 2, i + 2))
+            #Down Right Diagonal
+            if j < 7:
+                p = board[i + 2][j + 2]
+                if p == 0:
+                    moves.append((j + 2, i + 2))    
+                elif p.color != self.color:
+                    moves.append((j + 2, i + 2))
+
+        #Up left
+        if i > 5:
+            if j > 0:
+                p = board[i - 2][j - 2]
+                if p == 0:
+                    moves.append((j - 2, i - 2))
+                elif p.color != self.color:
+                    moves.append((j - 2, i - 2))
+
+            #Up RIGHT    
+            if j < 7:
+                p = board[i - 2][j + 2]
+                if p == 0:                      
+                    moves.append((j + 2, i - 2))
+                elif p.color != self.color:
+                    moves.append((j + 2, - 2))
+        return moves  
+
+class BlackGuard(Piece):
     img = 5
 
     def valid_moves(self, board):
@@ -321,42 +407,44 @@ class Guard1(Piece):
 
         moves = []
 
-        if self.color == 'b':
+        
         #Down Left Diagonal        
-            if i < 2: 
-                if j > 3:
-                    p = board[i + 1][j - 1]
-                    if p == 0:
-                        moves.append((j - 1, i + 1))
-                    elif p.color != self.color:
-                        moves.append((j - 1, i + 1))
-                #Down Right Diagonal
-            if i < 2:
-                if j < 5 and j > 2:
-                    p = board[i + 1][j + 1]
-                    if p == 0:
-                        moves.append((j + 1, i + 1))    
-                    elif p.color != self.color:
-                        moves.append((j + 1, i + 1))
+        if i < 2: 
+            if j > 3:
+                p = board[i + 1][j - 1]
+                if p == 0:
+                    moves.append((j - 1, i + 1))
+                elif p.color != self.color:
+                    moves.append((j - 1, i + 1))
+            #Down Right Diagonal
+        if i < 2:
+            if j < 5 and j > 2:
+                p = board[i + 1][j + 1]
+                if p == 0:
+                    moves.append((j + 1, i + 1))    
+                elif p.color != self.color:
+                    moves.append((j + 1, i + 1))
         
             #Up left
-            if i < 3:
-                if j < 6 and j > 3:
-                    p = board[i - 1][j - 1]
-                    if p == 0:
-                        moves.append((j - 1, i - 1))
-                    elif p.color != self.color:
-                        moves.append((j - 1, i - 1))
-                #Up RIGHT    
-                if j < 5:
-                    p = board[i - 1][j + 1]
-                    if p == 0:                      
-                        moves.append((j + 1, i - 1))
-                    elif p.color != self.color:
-                        moves.append((j + 1, i - 1))
+        if i < 3:
+            if j < 6 and j > 3:
+                p = board[i - 1][j - 1]
+                if p == 0:
+                    moves.append((j - 1, i - 1))
+                elif p.color != self.color:
+                    moves.append((j - 1, i - 1))
+            #Up RIGHT    
+            if j < 5:
+                p = board[i - 1][j + 1]
+                if p == 0:                      
+                    moves.append((j + 1, i - 1))
+                elif p.color != self.color:
+                    moves.append((j + 1, i - 1))
         return moves  
             
-class Guard2(Piece):
+
+
+class RedGuard(Piece):
     img = 5
 
     def valid_moves(self, board):
@@ -365,40 +453,42 @@ class Guard2(Piece):
 
         moves = []
 
-        if self.color == 'b':
-        #Down Left Diagonal        
-            if i < 2: 
-                if j < 6 and j > 3:
-                    p = board[i + 1][j - 1]
-                    if p == 0:
-                        moves.append((j - 1, i + 1))
-                    elif p.color != self.color:
-                        moves.append((j - 1, i + 1))
-                #Down Right Diagonal
-            if i < 2:
-                if j < 5:
-                    p = board[i + 1][j + 1]
-                    if p == 0:
-                        moves.append((j + 1, i + 1))    
-                    elif p.color != self.color:
-                        moves.append((j + 1, i + 1))
+        
+        #Up Right Diagonal        
+        if i > 7: 
+            if j < 5:
+                p = board[i - 1][j + 1]
+                if p == 0:
+                    moves.append((j + 1, i - 1))
+                elif p.color != self.color:
+                    moves.append((j + 1, i - 1))
+            #Down Right Diagonal
+        if i < 9:
+            if j < 5 and j > 2:
+                p = board[i + 1][j + 1]
+                if p == 0:
+                    moves.append((j + 1, i + 1))    
+                elif p.color != self.color:
+                    moves.append((j + 1, i + 1))
         
             #Up left
-            if i < 3:
-                if j < 6 and j > 3:
-                    p = board[i - 1][j - 1]
-                    if p == 0:
-                        moves.append((j - 1, i - 1))
-                    elif p.color != self.color:
-                        moves.append((j - 1, i - 1))
-                #Up RIGHT    
-                if j < 5:
-                    p = board[i - 1][j + 1]
-                    if p == 0:                      
-                        moves.append((j + 1, i - 1))
-                    elif p.color != self.color:
-                        moves.append((j + 1, i - 1))
+        if i > 7:
+            if j < 6 and j > 3:
+                p = board[i - 1][j - 1]
+                if p == 0:
+                    moves.append((j - 1, i - 1))
+                elif p.color != self.color:
+                    moves.append((j - 1, i - 1))
+            #Down Left   
+        if i < 9: 
+            if j < 6 and j > 3:
+                p = board[i + 1][j - 1]
+                if p == 0:                      
+                    moves.append((j - 1, i + 1))
+                elif p.color != self.color:
+                    moves.append((j - 1, i + 1))
         return moves  
+            
 
 class BlackKing(Piece):
     img = 6
@@ -417,6 +507,44 @@ class BlackKing(Piece):
                 moves.append((j, i - 1))
         #Down
         if i < 2:
+            p = board[i + 1][j]
+            if p == 0:
+                moves.append((j, i + 1))
+            elif p.color != self.color:
+                moves.append((j, i + 1))
+        #Left
+        if j > 3:
+            p = board[i][j - 1]
+            if p == 0:
+                moves.append((j - 1, i))
+            elif p.color != self.color:
+                moves.append((j - 1, i))
+        #Right
+        if j < 5:
+            p = board[i][j + 1]
+            if p ==0:
+                moves.append((j + 1, i))
+            elif p.color != self.color:
+                moves.append((j + 1, i))
+
+        return moves
+class RedKing(Piece):
+    img = 6
+
+    def valid_moves(self, board):
+        i = self.row
+        j = self.col
+
+        moves =[]
+        #UP
+        if i > 7:
+            p = board[i - 1][j]
+            if p == 0:
+                moves.append((j, i - 1))
+            elif p.color != self.color:
+                moves.append((j, i - 1))
+        #Down
+        if i < 9:
             p = board[i + 1][j]
             if p == 0:
                 moves.append((j, i + 1))
