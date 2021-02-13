@@ -9,9 +9,30 @@ def game_window():
     global screen, bo 
     screen.blit(board, (0, 0))
     bo.draw(screen)
-    
-
     pygame.display.update()
+
+def game_over(screen, text):
+    pygame.font.init()
+    font = pygame.font.SysFont("comicsans", 80)
+    txt = font.render(text, 1, (255, 0, 0))
+    win.blit(txt, (width/2 - txt.get_width()/2, 300))
+    running = True
+    pygame.display.update()
+
+    PYGAME.SET_TIME(PYGAME.userevent+1, 5000)
+
+    while running:
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                pygame.quit()
+                quit()
+                running = False
+            elif event.type == pygame.KEYDOWN:
+                running = False
+            elif event.type == pygame.USEREVENT+1:
+                running = False
+
+        
 
 def click(pos):
     import math
@@ -34,6 +55,7 @@ def click(pos):
 def main():
     global bo
     bo = Board(10, 9)
+    bo.update_moves()
     running = True
     clock = pygame.time.Clock()
 
@@ -54,6 +76,14 @@ def main():
                 i, j = click(pos)
                 bo.select(i, j)
                 bo.update_moves()
+
+        #Check for checkmate
+        if bo.check_mate('r'):
+            game_over(screen, "RED WINS")
+        elif bo.check_mate('b'):
+            game_over(screen, "Black WINS")
+        
+
 
 
 

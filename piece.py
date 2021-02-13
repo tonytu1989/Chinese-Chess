@@ -44,6 +44,7 @@ class Piece:
         self.color = color
         self.selected = False
         self.move_list = []
+        self.king = False
 
 
 
@@ -64,8 +65,8 @@ class Piece:
             moves = self.move_list
 
             for move in moves:
-                x = 40 + round(self.startX + (move[0] * self.rect[2]/9))
-                y = 40 + round(self.startY + (move[1] * self.rect[3]/10))
+                x = 35 + round(self.startX + (move[0] * self.rect[2]/9))
+                y = 35 + round(self.startY + (move[1] * self.rect[3]/10))
                 pygame.draw.circle(screen, (255, 0, 0,), (x, y), 10)
 
          
@@ -142,6 +143,7 @@ class RedPawn(Piece):
                 moves.append((j, i - 1))
             elif p.color != self.color:
                 moves.append((j, i - 1))
+        
         #Left
         if i < 5:
             p = board[i][j - 1]
@@ -149,6 +151,7 @@ class RedPawn(Piece):
                 moves.append((j - 1, i))
             elif p.color != self.color:
                 moves.append((j - 1, i))
+        #Right
         if i < 5:
             p = board[i][j + 1]
             if p == 0:
@@ -277,29 +280,57 @@ class Knight(Piece):
         j = self.col
 
         moves = []
-        #Down left
+        #DOWN LEFT
         if i < 7 and j > 0:
             p = board[i + 2][j - 1]
             if p == 0:
                 moves.append((j - 1, i + 2))
             elif p.color != self.color:
                 moves.append((j - 1, i + 2))
+        #Left DOWN 
+        if i < 9 and j > 1:
+            p = board[i + 1][j - 2]
+            if p == 0:
+                moves.append((j - 2, i + 1))
+            elif p.color != self.color:
+                moves.append((j - 2, i + 1))
 
-        #UP left
+        #UP LEFT
         if i > 1 and j > 0:
             p = board[i - 2][j - 1]
             if p == 0:
                 moves.append((j - 1, i - 2))
             elif p.color != self.color:
                 moves.append((j - 1, i - 2))
+        #LEFT up
+        if i > 1 and j > 0:
+            p = board[i - 1][j - 2]
+            if p == 0:
+                moves.append((j - 2, i - 1))
+            elif p.color != self.color:
+                moves.append((j - 2, i - 1))
 
         #Down Right
-        if i < 7 and j < 8:
+        if i < 8 and j < 8:
             p = board[i + 2][j + 1]
             if p == 0:
                 moves.append((j + 1, i + 2))
             elif p.color != self.color:
                 moves.append((j + 1, i + 2))
+        #RIGHT DOWN
+        if i < 9 and j < 7:
+            p = board[i + 1][j + 2]
+            if p == 0:
+                moves.append((j + 2, i + 1))
+            elif p.color != self.color:
+                moves.append((j + 2, i + 1))
+        #Right UP
+        if i > 0 and j < 7:
+            p = board[i - 1][j + 2]
+            if p == 0:
+                moves.append((j + 2, i - 1))
+            elif p.color != self.color:
+                moves.append((j + 2, i - 1))
 
         #Up right
         if i > 1 and j < 8:
@@ -493,6 +524,10 @@ class RedGuard(Piece):
 class BlackKing(Piece):
     img = 6
 
+    def __init__(self, row, col, color):
+        super().__init__(row, col, color)
+        self.king = True
+
     def valid_moves(self, board):
         i = self.row
         j = self.col
@@ -530,6 +565,10 @@ class BlackKing(Piece):
         return moves
 class RedKing(Piece):
     img = 6
+
+    def __init__(self, row, col, color):
+        super().__init__(row, col, color)
+        self.king = True
 
     def valid_moves(self, board):
         i = self.row

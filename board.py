@@ -43,8 +43,8 @@ class Board:
         self.board[9][7] = Knight(9, 7, "r")
         self.board[9][2] = RedElephant(9, 2, "r")
         self.board[9][6] = RedElephant(9, 6, "r")
-        #self.board[9][3] = RedGuard(9, 3, "r")
-        #self.board[9][5] = RedGuard(9, 5, "r")
+        self.board[9][3] = RedGuard(9, 3, "r")
+        self.board[9][5] = RedGuard(9, 5, "r")
         self.board[9][4] = RedKing(9, 4, "r")
         self.board[7][1] = Cannon(7, 1, "r")
         self.board[7][7] = Cannon(7, 7, "r")
@@ -67,6 +67,54 @@ class Board:
             for j in range(self.cols):
                 if self.board[i][j] != 0:
                     self.board[i][j].draw(screen)   
+    
+    def get_danger_moves(self, color):
+        danger_moves = []
+        for i in range(self.rows):
+            for j in range(self.cols):
+                if self.board[i][j] != 0:
+                    if self.board[i][j].color != color:
+                        for move in self.board[i][j].move_list:
+                            danger_moves.append(move)
+
+        return danger_moves
+
+    def check_mate(self, color):  
+        danger_moves = self.get_danger_moves(color)
+        king_moves = []
+        for i in range(self.rows):
+            for j in range(self.cols):
+                if self.board[i][j] != 0:
+                    if self.board[i][j].king and self.board[i][j].color == color:
+                        for move in self.board[i][j].move_list:
+                            king_moves.append(move)
+                    
+                    
+        if len(king_moves) == 0:
+            return False       
+
+        for move in king_moves:
+            if move not in danger_moves:
+                return False
+
+        return True
+
+
+
+    def is_checked(self, color):
+        danger_moves = self.get_danger_moves(color)
+        king_pos = (-1, -1)
+        for i in range(self.rows):
+            for j in range(self.cols):
+                if self.board[i][j] != 0:
+                    if self.board[i][j].king and self.board[i][j].color == color:
+                        king_pos = (j, i) 
+
+        if king_pos in danger_moves:
+            return True
+        return False
+
+        
 
     def select(self, col, row): #Selecting 
         prev = (-1, -1)
@@ -81,9 +129,18 @@ class Board:
             if (col, row) in moves:
                 self.move(prev, (row, col))
             self.unselect()
-        else:
-            self.unselect()
-            self.board[row][col].selected = True
+        else: 
+            #Taking pieces
+            if self.board[prev[0]][prev[1]].color != self.board[row][col].color:
+                moves = self.board[prev[0]][prev[1]].move_list
+                if (col, row) in moves:
+                    self.move(prev, (row, col))
+                self.unselect()               
+                self.board[row][col].selected = True
+
+            else:
+                self.unselect()
+                self.board[row][col].selected = True
 
 
 
